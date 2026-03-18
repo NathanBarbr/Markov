@@ -72,19 +72,37 @@ Histogramme et melange gaussien estime :
 
 Commentaire :
 
-La structure concentrique de la cible est bien retrouvee apres segmentation. Les anneaux restent visibles et la regularisation markovienne limite les erreurs isolees dues au bruit. Les courbes montrent une convergence progressive vers des moyennes proches de $100$ et $110$, des variances d'environ $41$ et $9$, et des probabilites diagonales proches de $0.95$.
+La structure concentrique de la cible est bien retrouvee apres segmentation. Les anneaux restent visibles et la regularisation markovienne limite les erreurs isolees dues au bruit. Les courbes montrent une convergence progressive vers les valeurs estimees
 
-Autrement dit, la matrice de transition estimee est proche de
+$$
+\mu \approx (100.046,\ 109.468),
+\qquad
+\sigma^2 \approx (41.664,\ 9.230),
+$$
+
+avec des probabilites diagonales elevees dans la matrice de transition.
+
+Plus precisement, l'algorithme EM fournit en fin d'apprentissage
+
+$$
+A \approx
+\begin{pmatrix}
+0.94856 & 0.05144 \\
+0.03178 & 0.96822
+\end{pmatrix},
+$$
+
+soit, a une lecture plus simple,
 
 $$
 A \approx
 \begin{pmatrix}
 0.95 & 0.05 \\
-0.05 & 0.95
-\end{pmatrix},
+0.03 & 0.97
+\end{pmatrix}.
 $$
 
-ce qui signifie qu'un changement de classe ne survient qu'avec une probabilite d'environ $5\,\%$ entre deux positions consecutives du parcours. Ce terme de persistance explique la disparition d'une grande partie du bruit impulsionnel tout en preservant les anneaux. Ce cas est le plus interessant pour montrer l'effet du parcours de Peano sur une geometrie non triviale.
+Cela signifie qu'un changement de classe ne survient qu'avec une probabilite d'environ $5\,\%$ depuis l'etat 1, et d'environ $3\,\%$ depuis l'etat 2, entre deux positions consecutives du parcours. Ce terme de persistance explique la disparition d'une grande partie du bruit impulsionnel tout en preservant les anneaux. Ce cas est le plus interessant pour montrer l'effet du parcours de Peano sur une geometrie non triviale.
 
 ### Cas 2. Disque central
 
@@ -106,15 +124,39 @@ Histogramme et melange gaussien estime :
 
 Commentaire :
 
-Ce cas est le plus favorable. Les deux classes sont nettement separees en intensite et la forme centrale est compacte. La segmentation obtenue est tres propre, avec un contour bien conserve. Les courbes se stabilisent presque immediatement, avec des moyennes proches de $94$ et $204$, des variances de l'ordre de $250$, et des probabilites de transition diagonales tres elevees, proches de $1$.
+Ce cas est le plus favorable. Les deux classes sont nettement separees en intensite et la forme centrale est compacte. La segmentation obtenue est tres propre, avec un contour bien conserve. Les courbes se stabilisent presque immediatement vers les valeurs
+
+$$
+\mu \approx (94.387,\ 204.455),
+\qquad
+\sigma^2 \approx (254.844,\ 250.351),
+$$
+
+avec des probabilites de transition diagonales tres elevees :
+
+$$
+A \approx
+\begin{pmatrix}
+0.9960 & 0.0040 \\
+0.0226 & 0.9774
+\end{pmatrix}.
+$$
 
 On peut l'interpreter par un bon rapport signal/bruit entre les deux classes :
 
 $$
-\Delta_\mu = |204 - 94| = 110
+\Delta_\mu = |204.455 - 94.387| \approx 110.068
 $$
 
-alors que l'ecart-type est de l'ordre de $\sqrt{250} \approx 15.8$. La distance entre les moyennes vaut donc environ $110 / 15.8 \approx 7$ ecarts-types, ce qui rend le recouvrement des deux gaussiennes tres faible. Dans ce contexte, le modele markovien sert surtout a regulariser legerement les contours.
+alors que les ecarts-types valent
+
+$$
+\sigma_1 \approx \sqrt{254.844} \approx 15.96,
+\qquad
+\sigma_2 \approx \sqrt{250.351} \approx 15.82.
+$$
+
+La distance entre les moyennes represente donc environ $110.068 / 15.9 \approx 6.9$ ecarts-types, ce qui rend le recouvrement des deux gaussiennes tres faible. Dans ce contexte, le modele markovien sert surtout a regulariser legerement les contours.
 
 ### Cas 3. Carre central
 
